@@ -3,8 +3,11 @@
 namespace App\Http\Controllers;
 
 use App\Models\Airport;
+use App\Models\Airline;
+use App\Models\Country;
 use App\Http\Requests\StoreAirportRequest;
 use App\Http\Requests\UpdateAirportRequest;
+use Illuminate\Http\Request;
 
 class AirportController extends Controller
 {
@@ -15,7 +18,9 @@ class AirportController extends Controller
      */
     public function index()
     {
-        //
+        $airports = Airport::all();
+
+        return view('airport.index', ['airports' => $airports]);
     }
 
     /**
@@ -25,18 +30,30 @@ class AirportController extends Controller
      */
     public function create()
     {
-        //
+        $countries = Country::all();
+        $airlines = Airline::all();
+
+        return view('airport.create', ['countries' => $countries, 'airlines' => $airlines]);
     }
 
     /**
      * Store a newly created resource in storage.
      *
-     * @param  \App\Http\Requests\StoreAirportRequest  $request
+     * @param  \Illuminate\Http\Request  $request
      * @return \Illuminate\Http\Response
      */
-    public function store(StoreAirportRequest $request)
+    public function store(Request $request)
     {
-        //
+        $airport = new Airport;
+
+        $airport->name = $request->create_airport_name;
+        $airport->country_id = $request->create_airport_country_id;
+        $airport->location = $request->create_airport_location;
+        $airport->airline_id = $request->create_airport_airline_id;
+        
+        $airport->save();
+
+        return redirect()->route('airports-index')->with('success', 'Created new airport!');
     }
 
     /**
@@ -56,21 +73,32 @@ class AirportController extends Controller
      * @param  \App\Models\Airport  $airport
      * @return \Illuminate\Http\Response
      */
-    public function edit(Airport $airport)
+    public function edit(int $airport_id)
     {
-        //
+        $countries = Country::all();
+        $airlines = Airline::all();
+        $airport = Airport::where('id', $airport_id)->first();
+
+        return view('airport.edit', ['airport' => $airport, 'countries' => $countries, 'airlines' => $airlines]);
     }
 
     /**
      * Update the specified resource in storage.
      *
-     * @param  \App\Http\Requests\UpdateAirportRequest  $request
+     * @param  \Illuminate\Http\Request  $request
      * @param  \App\Models\Airport  $airport
      * @return \Illuminate\Http\Response
      */
-    public function update(UpdateAirportRequest $request, Airport $airport)
+    public function update(Request $request, Airport $airport)
     {
-        //
+        $airport->name = $request->airport_name;
+        $airport->country_id = $request->airport_country_id;
+        $airport->location = $request->airport_location;
+        $airport->airline_id = $request->airport_airline_id;
+
+        $airport->save();
+
+        return redirect()->route('airports-index')->with('success', 'Airport updated!');
     }
 
     /**
@@ -79,8 +107,13 @@ class AirportController extends Controller
      * @param  \App\Models\Airport  $airport
      * @return \Illuminate\Http\Response
      */
-    public function destroy(Airport $airport)
+    public function destroy(int $airport_id)
     {
-        //
+        $airport = Airport::where('id', $airport_id)->first();        
+
+        $airport->delete();
+
+        return redirect()->route('airports-index')->with('delete', 'Airport deleted!');
+   
     }
 }
