@@ -13,8 +13,12 @@
                             {{ session('status') }}
                         </div>
                     @endif
-
-                    {{ __('You are logged in!') }}
+                    @if(Auth::user()->role > 9) 
+                    You are logged in!
+                    @endif
+                    @if(Auth::user()->role < 9) 
+                    You are logged in! <b> Please wait until administrator confirm you.</b>
+                    @endif
                 </div>
             </div>
         </div>
