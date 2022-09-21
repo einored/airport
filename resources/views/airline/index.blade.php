@@ -16,6 +16,7 @@
                                 <th scope="col">ISO</th>
                                 <th scope="col">Airline name</th>  
                                 <th scope="col">Country</th>
+                                <th scope="col">Edit</th> 
                                 <th scope="col">Delete</th>                                
                             </tr>
                         </thead>
