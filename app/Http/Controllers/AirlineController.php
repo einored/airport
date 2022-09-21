@@ -3,8 +3,10 @@
 namespace App\Http\Controllers;
 
 use App\Models\Airline;
+use App\Models\Country;
 use App\Http\Requests\StoreAirlineRequest;
 use App\Http\Requests\UpdateAirlineRequest;
+use Illuminate\Http\Request;
 
 class AirlineController extends Controller
 {
@@ -13,9 +15,11 @@ class AirlineController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    public function index()
+    public function index(Request $request)
     {
-        //
+        $airlines = Airline::all();
+
+        return view('airline.index', ['airlines' => $airlines]);
     }
 
     /**
@@ -25,18 +29,27 @@ class AirlineController extends Controller
      */
     public function create()
     {
-        //
+        $countries = Country::all();
+
+        return view('airline.create', ['countries' => $countries]);
     }
 
     /**
      * Store a newly created resource in storage.
      *
-     * @param  \App\Http\Requests\StoreAirlineRequest  $request
+     * @param  \Illuminate\Http\Request  $request
      * @return \Illuminate\Http\Response
      */
-    public function store(StoreAirlineRequest $request)
+    public function store(Request $request)
     {
-        //
+        $airline = new Airline;
+
+        $airline->name = $request->create_airline_name;
+        $airline->country_id = $request->create_airline_country_id;
+        
+        $airline->save();
+
+        return redirect()->route('airlines-index')->with('success', 'Created new airline!');
     }
 
     /**
@@ -56,21 +69,29 @@ class AirlineController extends Controller
      * @param  \App\Models\Airline  $airline
      * @return \Illuminate\Http\Response
      */
-    public function edit(Airline $airline)
+    public function edit(int $airline_id)
     {
-        //
+        $countries = Country::all();
+        $airline = Airline::where('id', $airline_id)->first();
+
+        return view('airline.edit', ['airline' => $airline, 'countries' => $countries]);
     }
 
     /**
      * Update the specified resource in storage.
      *
-     * @param  \App\Http\Requests\UpdateAirlineRequest  $request
+     * @param  \Illuminate\Http\Request  $request
      * @param  \App\Models\Airline  $airline
      * @return \Illuminate\Http\Response
      */
-    public function update(UpdateAirlineRequest $request, Airline $airline)
+    public function update(Request $request, Airline $airline)
     {
-        //
+        $airline->name = $request->airline_name;
+        $airline->country_id = $request->airline_country_id;
+
+        $airline->save();
+
+        return redirect()->route('airlines-index')->with('success', 'Airline updated!');
     }
 
     /**
@@ -79,8 +100,12 @@ class AirlineController extends Controller
      * @param  \App\Models\Airline  $airline
      * @return \Illuminate\Http\Response
      */
-    public function destroy(Airline $airline)
+    public function destroy(int $airline_id)
     {
-        //
+        $airline = Airline::where('id', $airline_id)->first();        
+
+        $airline->delete();
+
+        return redirect()->route('airlines-index')->with('delete', 'Airline deleted!');
     }
 }

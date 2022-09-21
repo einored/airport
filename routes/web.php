@@ -2,6 +2,7 @@
 
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\CountryController as Country;
+use App\Http\Controllers\AirlineController as Airline;
 
 /*
 |--------------------------------------------------------------------------
@@ -31,6 +32,18 @@ Route::get('/countries/edit/{country}', [Country::class, 'edit'])->name('countri
 Route::put('/countries/edit/{country}', [Country::class, 'update'])->name('countries-update')->middleware('rp:admin');
 //delete
 Route::delete('/countries/{country}', [Country::class, 'destroy'])->name('countries-delete')->middleware('rp:admin');
+
+//airline routes
+//index
+Route::get('/airlines', [Airline::class, 'index'])->name('airlines-index')->middleware('rp:admin') ;
+//create
+Route::get('/airlines/create', [Airline::class, 'create'])->name('airlines-create')->middleware('rp:admin');
+Route::post('/airlines', [Airline::class, 'store'])->name('airlines-store')->middleware('rp:admin');
+//edit
+Route::get('/airlines/edit/{airline}', [Airline::class, 'edit'])->name('airlines-edit')->middleware('rp:admin');
+Route::put('/airlines/edit/{airline}', [Airline::class, 'update'])->name('airlines-update')->middleware('rp:admin');
+//delete
+Route::delete('/airlines/{airline}', [Airline::class, 'destroy'])->name('airlines-delete')->middleware('rp:admin');
 
 
 Route::get('/home', [App\Http\Controllers\HomeController::class, 'index'])->name('home');

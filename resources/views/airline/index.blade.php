@@ -1,12 +1,12 @@
 @extends('layouts.app')
-@section('title', 'Countries')
+@section('title', 'Airlines')
 
 @section('content')
 <div class="container">
     <div class="row justify-content-center">
         <div class="col">
             <div class="card">
-                <div class="card-header">Country list</div>
+                <div class="card-header">Airline list</div>
                 <div class="card-body">
                     @include('msg.main')
                     <table class="table">
@@ -14,19 +14,21 @@
                             <tr>
                                 <th scope="col">ID</th>
                                 <th scope="col">ISO</th>
-                                <th scope="col">Country name</th>                                
+                                <th scope="col">Airline name</th>  
+                                <th scope="col">Country</th>
+                                <th scope="col">Delete</th>                                
                             </tr>
                         </thead>
-                        @forelse($countries as $country)
+                        @forelse($airlines as $airline)
                         <tr>
-                            <td>{{$country->id}}</td>
-                            <td>{{$country->iso}}</td>
-                            <td>{{$country->name}}</td>                            
+                            <td>{{$airline->id}}</td>
+                            <td>{{$airline->name}}</td>
+                            <td>{{$airline->country->name}}</td>                            
                             <td>
-                                <a class="btn btn-success btn-sm" href="{{route('countries-edit', $country->id)}}">Edit</a>
+                                <a class="btn btn-success btn-sm" href="{{route('airlines-edit', $airline->id)}}">Edit</a>
                             </td>
                             <td>
-                                <form class="delete" action="{{route('countries-delete', $country->id)}}" method="post">
+                                <form class="delete" action="{{route('airlines-delete', $airline->id)}}" method="post">
                             @csrf
                             @method('delete')
                             <button type="submit" class="btn btn-outline-warning btn-sm">Delete</button>
@@ -35,7 +37,7 @@
                         </tr>
 
                         @empty
-                        <li>No countries...</li>
+                        <li>No airlines...</li>
                         @endforelse
                     </table>
                 </div>

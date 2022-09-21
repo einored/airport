@@ -64,6 +64,19 @@
                                 </a>
                             </div>
                         </li>
+                        <li class="nav-item dropdown">
+                            <a id="navbarDropdown" class="nav-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false" v-pre>
+                                Airlines
+                            </a>
+                            <div class="dropdown-menu dropdown-menu-right" aria-labelledby="navbarDropdown">
+                                <a class="dropdown-item" href="{{ route('airlines-index') }}">
+                                    Airline List
+                                </a>
+                                <a class="dropdown-item" href="{{ route('airlines-create') }}">
+                                    Add airline
+                                </a>
+                            </div>
+                        </li>
                         @endif
 
                             <li class="nav-item dropdown">
