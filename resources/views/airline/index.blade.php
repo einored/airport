@@ -14,9 +14,7 @@
                             <tr>
                                 <th scope="col">ID</th>
                                 <th scope="col">ISO</th>
-                                <th scope="col">Country name</th>          
-                                <th scope="col">Edit</th>
-                                <th scope="col">Delete</th>                      
+                                <th scope="col">Country name</th>                                
                             </tr>
                         </thead>
                         @forelse($countries as $country)
