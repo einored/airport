@@ -7,6 +7,7 @@ use App\Models\Country;
 use App\Http\Requests\StoreAirlineRequest;
 use App\Http\Requests\UpdateAirlineRequest;
 use Illuminate\Http\Request;
+use Validator;
 
 class AirlineController extends Controller
 {
@@ -42,6 +43,21 @@ class AirlineController extends Controller
      */
     public function store(Request $request)
     {
+        $validator = Validator::make($request->all(),
+        [
+            'create_airline_name' => ['required', 'min:2', 'max:50'],
+        ],
+        [
+            'create_airline_name.required' => 'Missing airline name!',
+            'create_airline_name.min' => 'Too short airline name!',
+            'create_airline_name.max' => 'Too long airline name!',
+        ]
+        );
+        if ($validator->fails()) {
+            $request->flash();
+            return redirect()->back()->with('error', $validator->errors()->first());
+        }
+
         $airline = new Airline;
 
         $airline->name = $request->create_airline_name;
@@ -86,6 +102,21 @@ class AirlineController extends Controller
      */
     public function update(Request $request, Airline $airline)
     {
+        $validator = Validator::make($request->all(),
+        [
+            'airline_name' => ['required', 'min:2', 'max:50'],
+        ],
+        [
+            'airline_name.required' => 'Missing airline name!',
+            'airline_name.min' => 'Too short airline name!',
+            'airline_name.max' => 'Too long airline name!',
+        ]
+        );
+        if ($validator->fails()) {
+            $request->flash();
+            return redirect()->back()->with('error', $validator->errors()->first());
+        }
+
         $airline->name = $request->airline_name;
         $airline->country_id = $request->airline_country_id;
 

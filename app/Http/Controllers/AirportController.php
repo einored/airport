@@ -8,6 +8,7 @@ use App\Models\Country;
 use App\Http\Requests\StoreAirportRequest;
 use App\Http\Requests\UpdateAirportRequest;
 use Illuminate\Http\Request;
+use Validator;
 
 class AirportController extends Controller
 {
@@ -44,6 +45,29 @@ class AirportController extends Controller
      */
     public function store(Request $request)
     {
+        $validator = Validator::make($request->all(),
+        [
+            'create_airport_name' => ['required', 'min:2', 'max:50'],
+            'create_airport_longitude' => ['required', 'max:30'],
+            'create_airport_latitude' => ['required', 'max:30'],
+        ],
+        [
+            'create_airport_name.required' => 'Missing airport name!',
+            'create_airport_name.min' => 'Too short airport name!',
+            'create_airport_name.max' => 'Too long airport name!',
+
+            'create_airport_longitude.required' => 'Missing airport longitude!',
+            'create_airport_longitude.max' => 'Too long airport longitude!',
+
+            'create_airport_latitude.required' => 'Missing airport latitude!',
+            'create_airport_latitude.max' => 'Too long airport latitude!',
+        ]
+        );
+        if ($validator->fails()) {
+            $request->flash();
+            return redirect()->back()->with('error', $validator->errors()->first());
+        }
+
         $airport = new Airport;
 
         $airport->name = $request->create_airport_name;
@@ -93,6 +117,29 @@ class AirportController extends Controller
      */
     public function update(Request $request, Airport $airport)
     {
+        $validator = Validator::make($request->all(),
+        [
+            'airport_name' => ['required', 'min:2', 'max:50'],
+            'airport_longitude' => ['required', 'max:30'],
+            'airport_latitude' => ['required', 'max:30'],
+        ],
+        [
+            'airport_name.required' => 'Missing airport name!',
+            'airport_name.min' => 'Too short airport name!',
+            'airport_name.max' => 'Too long airport name!',
+
+            'airport_longitude.required' => 'Missing airport longitude!',
+            'airport_longitude.max' => 'Too long airport longitude!',
+
+            'airport_latitude.required' => 'Missing airport latitude!',
+            'airport_latitude.max' => 'Too long airport latitude!',
+        ]
+        );
+        if ($validator->fails()) {
+            $request->flash();
+            return redirect()->back()->with('error', $validator->errors()->first());
+        }
+
         $airport->name = $request->airport_name;
         $airport->country_id = $request->airport_country_id;
         $airport->longitude = $request->airport_longitude;
