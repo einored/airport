@@ -20,8 +20,10 @@
                                 <option value="{{$country->id}}" {{old('airport_country_id', $airport->country_id)==$country->id?'selected':''}}>{{ $country->name }}</option>
                                 @endforeach
                             </select>
-                            <li>Airport location</li>
-                            <input type="text" class="form-control" name="airport_location" value="{{old('airport_location', $airport->location)}}" />              
+                            <li>Airport latitude</li>
+                            <input type="text" class="form-control" name="airport_latitude" value="{{old('airport_latitude', $airport->latitude)}}" /> 
+                            <li>Airport longitude</li>
+                            <input type="text" class="form-control" name="airport_longitude" value="{{old('airport_longitude', $airport->longitude)}}" />   
                             <li>Airline(-s)</li>
                             <select class="form-control" name="airport_airline_id" required focus>
                                 @foreach($airlines as $airline)

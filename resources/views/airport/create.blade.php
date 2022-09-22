@@ -21,8 +21,10 @@
                                 <option value="{{$country->id}}">{{ $country->name }}</option>
                                 @endforeach
                             </select>
-                            <li>Airport location</li>
-                            <input type="text" class="form-control" name="create_airport_location" />
+                            <li>Airport latitude</li>
+                            <input type="text" class="form-control" name="create_airport_latitude" />                            
+                            <li>Airport longitude</li>
+                            <input type="text" class="form-control" name="create_airport_longitude" />
                             <li>Airline(-s)</li>
                             <select class="form-control" name="create_airport_airline_id" required focus>
                                 <option value="" disabled selected>Please select airline</option>

@@ -48,7 +48,8 @@ class AirportController extends Controller
 
         $airport->name = $request->create_airport_name;
         $airport->country_id = $request->create_airport_country_id;
-        $airport->location = $request->create_airport_location;
+        $airport->longitude = $request->create_airport_longitude;
+        $airport->latitude = $request->create_airport_latitude;
         $airport->airline_id = $request->create_airport_airline_id;
         
         $airport->save();
@@ -59,12 +60,13 @@ class AirportController extends Controller
     /**
      * Display the specified resource.
      *
-     * @param  \App\Models\Airport  $airport
      * @return \Illuminate\Http\Response
      */
-    public function show(Airport $airport)
+    public function show(int $airport_id)
     {
-        //
+        $airport = Airport::where('id', $airport_id)->first();
+
+        return view('airport.show', ['airport' => $airport]);
     }
 
     /**
@@ -93,7 +95,8 @@ class AirportController extends Controller
     {
         $airport->name = $request->airport_name;
         $airport->country_id = $request->airport_country_id;
-        $airport->location = $request->airport_location;
+        $airport->longitude = $request->airport_longitude;
+        $airport->latitude = $request->airport_latitude;
         $airport->airline_id = $request->airport_airline_id;
 
         $airport->save();

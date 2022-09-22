@@ -57,6 +57,8 @@ Route::get('/airports/edit/{airport}', [Airport::class, 'edit'])->name('airports
 Route::put('/airports/edit/{airport}', [Airport::class, 'update'])->name('airports-update')->middleware('rp:admin');
 //delete
 Route::delete('/airports/{airport}', [Airport::class, 'destroy'])->name('airports-delete')->middleware('rp:admin');
+//show
+Route::get('/airports/show/{id}', [Airport::class, 'show'])->name('airports-show')->middleware('rp:admin');
 
 
 Route::get('/home', [App\Http\Controllers\HomeController::class, 'index'])->name('home');

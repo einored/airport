@@ -1,6 +1,36 @@
 @extends('layouts.app')
 @section('title', 'Airports')
 
+<script src="http://maps.googleapis.com/maps/api/js"></script>
+<script>
+    var map;
+
+    function initialize() {
+        latitude = <?php echo $airport->latitude ?>;
+        longitude = <?php echo $airport->longitude ?>;
+        latlng = new google.maps.LatLng(latitude, longitude);
+
+        var mapOpt = {
+            center: latlng
+            , zoom: 14
+            , zoomControl: false
+            , scaleControl: true
+            , mapTypeId: google.maps.MapTypeId.HYBRID
+        , };
+
+        map = new google.maps.Map(document.getElementById("googleMap"), mapOpt);
+
+        var marker = new google.maps.Marker({
+            position: new google.maps.LatLng(latitude, longitude)
+            , draggable: false
+            , map: map
+        })
+        
+    }
+    google.maps.event.addDomListener(window, 'load', initialize);
+
+</script>
+
 @section('content')
 <div class="container">
     <div class="row justify-content-center">
@@ -15,37 +45,21 @@
                                 <th scope="col">ID</th>
                                 <th scope="col">Airport name</th>
                                 <th scope="col">Country</th>
-                                <th scope="col">Location</th>
                                 <th scope="col">Airline(-s)</th>
                                 <th scope="col">Edit</th>
-                                <th scope="col">Delete</th>
                             </tr>
                         </thead>
-                        @forelse($airports as $airport)
                         <tr>
                             <td>{{$airport->id}}</td>
                             <td>{{$airport->name}}</td>
                             <td>{{$airport->country->name}}</td>
-                            <td>
-                                <a class="btn btn-outline-success btn-sm" href="{{route('airports-show', $airport->id)}}">Show on map</a>
-                            </td> 
                             <td>{{$airport->airline->name}}</td>
                             <td>
                                 <a class="btn btn-success btn-sm" href="{{route('airports-edit', $airport->id)}}">Edit</a>
                             </td>
-                            <td>
-                                <form class="delete" action="{{route('airports-delete', $airport->id)}}" method="post">
-                                    @csrf
-                                    @method('delete')
-                                    <button type="submit" class="btn btn-outline-warning btn-sm">Delete</button>
-                                </form>
-                            </td>
                         </tr>
-
-                        @empty
-                        <li>No airports...</li>
-                        @endforelse
                     </table>
+                    <div id="googleMap" style="width:100%;height:350px;"></div>
                 </div>
             </div>
         </div>

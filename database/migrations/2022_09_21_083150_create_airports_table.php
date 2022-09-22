@@ -18,7 +18,8 @@ return new class extends Migration
             $table->string('name', 50); //Oro uosto pavadinimas
             $table->unsignedBigInteger('country_id'); //Šalis iš countries lentelės
             $table->foreign('country_id')->references('id')->on('countries');
-            $table->string('location', 50); //Oro uosto lokacija (ilguma ir platuma)
+            $table->string('latitude', 30); //Oro uosto lokacija (platuma)
+            $table->string('longitude', 30); //Oro uosto lokacija (ilguma)            
             $table->unsignedBigInteger('airline_id'); //Avialinija iš airlines lentelės
             $table->foreign('airline_id')->references('id')->on('airlines');
             $table->timestamps();
