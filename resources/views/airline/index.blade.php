@@ -13,7 +13,6 @@
                         <thead class="thead-light">
                             <tr>
                                 <th scope="col">ID</th>
-                                <th scope="col">ISO</th>
                                 <th scope="col">Airline name</th>  
                                 <th scope="col">Country</th>
                                 <th scope="col">Edit</th> 
